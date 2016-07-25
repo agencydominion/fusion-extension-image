@@ -1,0 +1,139 @@
+/**
+ * Styles for Fusion Image Extension
+ */
+ 
+.fsn-image.overlay	{
+	position:relative;
+	display:inline-block;
+	max-width:100%;
+}
+
+.fsn-image img.img-responsive	{
+	width:inherit;
+}
+
+.fsn-image.overlay:after	{
+	content:'';
+	display:block;
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	background:rgba(0, 0, 0, 0.25);
+	z-index:1;
+}
+
+.fsn-image.overlay.overlay-img-circle:after	{
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
+	border-radius:50%;
+}
+
+.fsn-image.overlay.overlay-img-rounded:after	{
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+}
+
+.fsn-image.overlay.overlay-img-thumbnail:after	{
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+}
+
+.fsn-image.overlay .image-content h4	{
+	color:inherit;
+	margin:0;
+}
+
+.fsn-image.overlay .image-content	{
+	position:absolute;
+	color:#fff;
+	z-index:2;
+}
+
+.fsn-image.overlay.center .image-content	{	
+	top:0;
+	left:0;
+	width:100%;
+	padding:0 23%;
+	text-align:center;	
+	opacity:0;
+	-moz-transition:opacity 0.4s;
+	-webkit-transition:opacity 0.4s;
+	transition:opacity 0.4s;
+}
+
+.fsn-image.overlay.center .image-content.processed	{
+	opacity:1;
+}
+
+.fsn-image.overlay.topleft .image-content	{	
+	top:15px;
+	left:15px;
+	text-align:left;
+}
+
+.fsn-image.overlay.topcenter .image-content	{	
+	top:15px;
+	left:0;
+	width:100%;
+	padding:0 23%;
+	text-align:center;
+}
+
+.fsn-image.overlay.topright .image-content	{	
+	top:15px;
+	right:15px;
+	text-align:right;
+}
+
+.fsn-image.overlay.bottomleft .image-content	{	
+	bottom:15px;
+	left:15px;
+	text-align:left;
+}
+
+.fsn-image.overlay.bottomcenter .image-content	{	
+	bottom:15px;
+	left:0;
+	width:100%;
+	padding:0 23%;
+	text-align:center;
+}
+
+.fsn-image.overlay.bottomright .image-content	{	
+	bottom:15px;
+	right:15px;
+	text-align:right;
+}
+
+.fsn-image.align-left	{
+	float:left;
+}
+
+.fsn-image.align-right	{
+	float:right;
+}
+
+.fsn-image.align-center	{
+	text-align:center;
+}
+
+.fsn-image.align-center img	{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.align-center .image-content	{
+	text-align:center;
+}
+
+/* Extra small devices (phones, less than 768px) */
+/* This is the default viewport */
+@media (max-width: 767px) {
+	.fsn-image.align-left, .fsn-image.align-right	{
+		float:none;
+	}
+}
