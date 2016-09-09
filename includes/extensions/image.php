@@ -58,7 +58,7 @@ function fsn_init_image() {
 					$image_classes = implode(' ', $image_classes_array);
 				}
 				
-				$image = '<img src="'. $attachment_attrs[0] .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. $attachment_alt .'"'. (!empty($image_classes) ? ' class="'. $image_classes .'"' : '') .'>';
+				$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .'>';
 			}
 			
 			//build classes
