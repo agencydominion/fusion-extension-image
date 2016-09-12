@@ -70,7 +70,7 @@ function fsn_init_image() {
 				$classes = implode(' ', $classes_array);
 			}
 			
-			$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. $image_align : '') . (!empty($classes) ? ' '. $classes : '') .'">';
+			$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. esc_attr($image_align) : '') . (!empty($classes) ? ' '. esc_attr($classes) : '') .'">';
 			
 				if (!empty($image_button)) {
 					//get button
