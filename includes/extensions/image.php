@@ -19,7 +19,6 @@ function fsn_init_image() {
 		extract( shortcode_atts( array(							
 			'image_id' => false,				
 			'image_size' => 'medium',
-			'image_custom' => false,
 			'image_2x' => '',
 			'image_style' => '',
 			'image_align' => false,
@@ -37,29 +36,22 @@ function fsn_init_image() {
 		
 		if (!empty($image_id)) {				
 			//get image
-			if (!empty($image_custom)) {
-				//custom image size
-				$image_tag = FusionExtensionImage::get_image_by_size(array( 'attach_id' => $image_id, 'thumb_size' => $image_custom, 'img_style' => $image_style ));
-				$image = $image_tag['thumbnail'];
-			} else {
-				//defined image size
-				$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
-				$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-				
-				//image classes
-				$image_classes_array = array();
-				if (empty($image_2x)) {
-					$image_classes_array[] = 'img-responsive';
-				}
-				if (!empty($image_style)) {
-					$image_classes_array[] = $image_style;
-				}
-				if (!empty($image_classes_array)) {
-					$image_classes = implode(' ', $image_classes_array);
-				}
-				
-				$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .'>';
+			$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
+			$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+			
+			//image classes
+			$image_classes_array = array();
+			if (empty($image_2x)) {
+				$image_classes_array[] = 'img-responsive';
 			}
+			if (!empty($image_style)) {
+				$image_classes_array[] = $image_style;
+			}
+			if (!empty($image_classes_array)) {
+				$image_classes = implode(' ', $image_classes_array);
+			}
+			
+			$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .'>';
 			
 			//build classes
 			$classes_array = array();
@@ -137,13 +129,6 @@ function fsn_init_image() {
 				'section' => 'general'
 			),
 			array(
-				'type' => 'text',
-				'param_name' => 'image_custom',
-				'label' => __('Image Size (custom)', 'fusion-extension-image'),
-				'help' => __('Input custom image size (e.g. 300x250). Will generate a new cropped image.', 'fusion-extension-image'),
-				'section' => 'advanced'
-			),
-			array(
 				'type' => 'checkbox',
 				'param_name' => 'image_2x',
 				'label' => __('High Resolution Image', 'fusion-extension-image'),
@@ -177,7 +162,7 @@ function fsn_init_image() {
 		fsn_map(array(
 			'name' => __('Image', 'fusion-extension-image'),
 			'shortcode_tag' => 'fsn_image',
-			'description' => __('Add image. Use the options below to upload or select an image from the Media Library and a basic image size. Among other options, choose the "Advanced" tab above to input a custom image size, style, and alignment.', 'fusion-extension-image'),
+			'description' => __('Add image. Use the options below to upload or select an image from the Media Library and a basic image size. Among other options, choose the "Advanced" tab above to choose style, and alignment.', 'fusion-extension-image'),
 			'icon' => 'insert_photo',
 			'disable_style_params' => array('text_align','text_align_xs','font_size','color'),
 			'params' => $image_params
