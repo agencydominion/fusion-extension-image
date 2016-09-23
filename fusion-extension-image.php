@@ -7,7 +7,7 @@
  * Plugin Name: Fusion : Extension - Image
  * Plugin URI: http://fusion.1867dev.com
  * Description: Image Extension Package for Fusion.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Agency Dominion
  * Author URI: http://agencydominion.com
  * License: GPL2
@@ -41,7 +41,10 @@ class FusionExtensionImage	{
 	 
 	 public function front_enqueue_scripts_styles() {
 		//plugin
-		wp_enqueue_style( 'fsn_image', plugin_dir_url( __FILE__ ) . 'includes/css/fusion-extension-image.css', false, '1.0.0' );
+		global $post;
+		if (has_shortcode($post->post_content, 'fsn_image')) {
+			wp_enqueue_style( 'fsn_image', plugin_dir_url( __FILE__ ) . 'includes/css/fusion-extension-image.css', false, '1.0.0' );
+		}
 	}
 
 }

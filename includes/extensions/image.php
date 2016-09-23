@@ -11,89 +11,13 @@
  * @since 1.0.0
  */
 
+/**
+ * Map Shortcode
+ */
+
 add_action('init', 'fsn_init_image', 12);
 function fsn_init_image() {
 	
-	//OUTPUT SHORTCODE
-	function fsn_image_shortcode( $atts, $content ) {		
-		extract( shortcode_atts( array(							
-			'image_id' => false,				
-			'image_size' => 'medium',
-			'image_2x' => '',
-			'image_style' => '',
-			'image_align' => false,
-			'image_button' => ''
-		), $atts ) );
-		
-		/**
-		 * Enqueue Scripts
-		 */
-		 
-		//plugin
-		wp_enqueue_script('fsn_image');
-		
-		$output = '';
-		
-		if (!empty($image_id)) {				
-			//get image
-			$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
-			$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
-			
-			//image classes
-			$image_classes_array = array();
-			if (empty($image_2x)) {
-				$image_classes_array[] = 'img-responsive';
-			}
-			if (!empty($image_style)) {
-				$image_classes_array[] = $image_style;
-			}
-			if (!empty($image_classes_array)) {
-				$image_classes = implode(' ', $image_classes_array);
-			}
-			
-			$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .'>';
-			
-			//build classes
-			$classes_array = array();
-			
-			//filter for adding classes
-			$classes_array = apply_filters('fsn_image_classes', $classes_array, $atts);
-			if (!empty($classes_array)) {
-				$classes = implode(' ', $classes_array);
-			}
-			
-			$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. esc_attr($image_align) : '') . (!empty($classes) ? ' '. esc_attr($classes) : '') .'">';
-			
-				if (!empty($image_button)) {
-					//get button
-					$button_object = fsn_get_button_object($image_button);
-					$output .= '<a'.fsn_get_button_anchor_attributes($button_object, 'image-button') .'>';
-				}
-				
-				//action executed before the image output
-				ob_start();
-				do_action('fsn_before_image', $atts);
-				$output .= ob_get_clean();
-				
-				//output image
-				$output .= $image;
-				
-				//action executed after the image output
-				ob_start();
-				do_action('fsn_after_image', $atts);
-				$output .= ob_get_clean();
-				
-				if (!empty($image_button)) {
-					$output .= '</a>';
-				}	
-			$output .= '</div>';				
-		}
-
-		return $output;
-	}
-	add_shortcode('fsn_image', 'fsn_image_shortcode');
-	
-	//MAP SHORTCODE
 	if (function_exists('fsn_map')) {
 						
 		$image_sizes_array = fsn_get_image_sizes();
@@ -169,5 +93,87 @@ function fsn_init_image() {
 		));
 	}
 }
+
+/**
+ * Output Shortcode
+ */
+
+function fsn_image_shortcode( $atts, $content ) {		
+	extract( shortcode_atts( array(							
+		'image_id' => false,				
+		'image_size' => 'medium',
+		'image_2x' => '',
+		'image_style' => '',
+		'image_align' => false,
+		'image_button' => ''
+	), $atts ) );
+	
+	/**
+	 * Enqueue Scripts
+	 */
+	 
+	//plugin
+	wp_enqueue_script('fsn_image');
+	
+	$output = '';
+	
+	if (!empty($image_id)) {				
+		//get image
+		$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
+		$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+		
+		//image classes
+		$image_classes_array = array();
+		if (empty($image_2x)) {
+			$image_classes_array[] = 'img-responsive';
+		}
+		if (!empty($image_style)) {
+			$image_classes_array[] = $image_style;
+		}
+		if (!empty($image_classes_array)) {
+			$image_classes = implode(' ', $image_classes_array);
+		}
+		
+		$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .'>';
+		
+		//build classes
+		$classes_array = array();
+		
+		//filter for adding classes
+		$classes_array = apply_filters('fsn_image_classes', $classes_array, $atts);
+		if (!empty($classes_array)) {
+			$classes = implode(' ', $classes_array);
+		}
+		
+		$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. esc_attr($image_align) : '') . (!empty($classes) ? ' '. esc_attr($classes) : '') .'">';
+		
+			if (!empty($image_button)) {
+				//get button
+				$button_object = fsn_get_button_object($image_button);
+				$output .= '<a'.fsn_get_button_anchor_attributes($button_object, 'image-button') .'>';
+			}
+			
+			//action executed before the image output
+			ob_start();
+			do_action('fsn_before_image', $atts);
+			$output .= ob_get_clean();
+			
+			//output image
+			$output .= $image;
+			
+			//action executed after the image output
+			ob_start();
+			do_action('fsn_after_image', $atts);
+			$output .= ob_get_clean();
+			
+			if (!empty($image_button)) {
+				$output .= '</a>';
+			}	
+		$output .= '</div>';				
+	}
+
+	return $output;
+}
+add_shortcode('fsn_image', 'fsn_image_shortcode');
 
 ?>
