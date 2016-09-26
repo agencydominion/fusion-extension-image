@@ -39,12 +39,9 @@ class FusionExtensionImage	{
 	 *
 	 */
 	 
-	 public function front_enqueue_scripts_styles() {
+	public function front_enqueue_scripts_styles() {
 		//plugin
-		global $post;
-		if (has_shortcode($post->post_content, 'fsn_image')) {
-			wp_enqueue_style( 'fsn_image', plugin_dir_url( __FILE__ ) . 'includes/css/fusion-extension-image.css', false, '1.0.0' );
-		}
+		wp_enqueue_style( 'fsn_image', plugin_dir_url( __FILE__ ) . 'includes/css/fusion-extension-image.css', false, '1.0.0' );
 	}
 
 }
