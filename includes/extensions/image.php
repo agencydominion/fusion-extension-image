@@ -54,6 +54,12 @@ function fsn_init_image() {
 			),
 			array(
 				'type' => 'checkbox',
+				'param_name' => 'enable_kenburns',
+				'label' => __('Ken Burns Effect', 'fusion-extension-image'),
+				'section' => 'advanced'
+			),
+			array(
+				'type' => 'checkbox',
 				'param_name' => 'image_2x',
 				'label' => __('High Resolution Image', 'fusion-extension-image'),
 				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
@@ -102,6 +108,7 @@ function fsn_image_shortcode( $atts, $content ) {
 	extract( shortcode_atts( array(							
 		'image_id' => false,				
 		'image_size' => 'medium',
+		'enable_kenburns' => false,
 		'image_2x' => '',
 		'image_style' => '',
 		'image_align' => false,
@@ -145,7 +152,7 @@ function fsn_image_shortcode( $atts, $content ) {
 			$classes = implode(' ', $classes_array);
 		}
 		
-		$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. esc_attr($image_align) : '') . (!empty($classes) ? ' '. esc_attr($classes) : '') .'">';
+		$output .= '<div class="fsn-image '. fsn_style_params_class($atts) . (!empty($image_align) ? ' '. esc_attr($image_align) : ''). (!empty($enable_kenburns) ? ' kenburns' : '') . (!empty($classes) ? ' '. esc_attr($classes) : '') .'">';
 		
 			if (!empty($image_button)) {
 				//get button
