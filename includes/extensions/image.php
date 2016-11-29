@@ -23,7 +23,7 @@ function fsn_init_image() {
 		$image_sizes_array = fsn_get_image_sizes();
 		
 		$image_styles_array = array(
-			'' => __('Default', 'fusion-extension-image'),
+			'img-default' => __('Default', 'fusion-extension-image'),
 			'img-rounded' => __('Rounded', 'fusion-extension-image'),
 			'img-circle' => __('Circle', 'fusion-extension-image'),
 			'img-thumbnail' => __('Thumbnail', 'fusion-extension-image'),
@@ -53,16 +53,15 @@ function fsn_init_image() {
 				'section' => 'general'
 			),
 			array(
-				'type' => 'checkbox',
-				'param_name' => 'enable_kenburns',
-				'label' => __('Ken Burns Effect', 'fusion-extension-image'),
-				'section' => 'advanced'
-			),
-			array(
-				'type' => 'checkbox',
-				'param_name' => 'image_2x',
-				'label' => __('High Resolution Image', 'fusion-extension-image'),
-				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
+				'type' => 'select',
+				'options' => array(
+					'align-none' => __('None', 'fusion-extension-image'),
+					'align-left' => __('Left', 'fusion-extension-image'),
+					'align-center' => __('Center', 'fusion-extension-image'),
+					'align-right' => __('Right', 'fusion-extension-image'),
+				),
+				'param_name' => 'image_align',
+				'label' => __('Image Alignment', 'fusion-extension-image'),
 				'section' => 'advanced'
 			),
 			array(
@@ -73,15 +72,20 @@ function fsn_init_image() {
 				'section' => 'advanced'
 			),
 			array(
-				'type' => 'select',
-				'options' => array(
-					'' => __('None', 'fusion-extension-image'),
-					'align-left' => __('Left', 'fusion-extension-image'),
-					'align-center' => __('Center', 'fusion-extension-image'),
-					'align-right' => __('Right', 'fusion-extension-image'),
-				),
-				'param_name' => 'image_align',
-				'label' => __('Image Alignment', 'fusion-extension-image'),
+				'type' => 'checkbox',
+				'param_name' => 'enable_kenburns',
+				'label' => __('Ken Burns Effect', 'fusion-extension-image'),
+				'section' => 'advanced',
+				'dependency' => array(
+					'param_name' => 'image_style',
+					'value' => 'img-default'
+				)
+			),
+			array(
+				'type' => 'checkbox',
+				'param_name' => 'image_2x',
+				'label' => __('High Resolution Image', 'fusion-extension-image'),
+				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
 				'section' => 'advanced'
 			)		
 		);
@@ -106,12 +110,12 @@ function fsn_init_image() {
 
 function fsn_image_shortcode( $atts, $content ) {		
 	extract( shortcode_atts( array(							
-		'image_id' => false,				
+		'image_id' => '',				
 		'image_size' => 'medium',
-		'enable_kenburns' => false,
+		'enable_kenburns' => '',
 		'image_2x' => '',
-		'image_style' => '',
-		'image_align' => false,
+		'image_style' => 'img-default',
+		'image_align' => 'align-none',
 		'image_button' => ''
 	), $atts ) );
 	
