@@ -73,20 +73,16 @@ function fsn_init_image() {
 			),
 			array(
 				'type' => 'checkbox',
-				'param_name' => 'enable_kenburns',
-				'label' => __('Ken Burns Effect', 'fusion-extension-image'),
-				'section' => 'advanced',
-				'dependency' => array(
-					'param_name' => 'image_style',
-					'value' => 'img-default'
-				)
-			),
-			array(
-				'type' => 'checkbox',
 				'param_name' => 'image_2x',
 				'label' => __('High Resolution Image', 'fusion-extension-image'),
 				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
 				'section' => 'advanced'
+			),
+			array(
+				'type' => 'checkbox',
+				'param_name' => 'enable_kenburns',
+				'label' => __('Ken Burns Effect', 'fusion-extension-image'),
+				'section' => 'animation'
 			)		
 		);
 		
