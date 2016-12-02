@@ -53,6 +53,13 @@ function fsn_init_image() {
 				'section' => 'general'
 			),
 			array(
+				'type' => 'checkbox',
+				'param_name' => 'image_2x',
+				'label' => __('High Resolution Image', 'fusion-extension-image'),
+				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
+				'section' => 'style'
+			),
+			array(
 				'type' => 'select',
 				'options' => array(
 					'align-none' => __('None', 'fusion-extension-image'),
@@ -62,21 +69,14 @@ function fsn_init_image() {
 				),
 				'param_name' => 'image_align',
 				'label' => __('Image Alignment', 'fusion-extension-image'),
-				'section' => 'advanced'
+				'section' => 'style'
 			),
 			array(
 				'type' => 'select',
 				'options' => $image_styles_array,
 				'param_name' => 'image_style',
 				'label' => __('Image Style', 'fusion-extension-image'),
-				'section' => 'advanced'
-			),
-			array(
-				'type' => 'checkbox',
-				'param_name' => 'image_2x',
-				'label' => __('High Resolution Image', 'fusion-extension-image'),
-				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
-				'section' => 'advanced'
+				'section' => 'style'
 			),
 			array(
 				'type' => 'checkbox',
