@@ -10,6 +10,8 @@
  * Version: 1.1.6
  * Author: Agency Dominion
  * Author URI: http://agencydominion.com
+ * Text Domain: fusion-extension-image
+ * Domain Path: /languages/
  * License: GPL2
  */
  
@@ -25,11 +27,22 @@ class FusionExtensionImage	{
 	public function __construct() {
 						
 		// Initialize the language files
-		load_plugin_textdomain( 'fusion-extension-image', false, plugin_dir_url( __FILE__ ) . 'languages' );
+		add_action('plugins_loaded', array($this, 'load_textdomain'));
 		
 		// Enqueue front end scripts and styles
 		add_action('wp_enqueue_scripts', array($this, 'front_enqueue_scripts_styles'));
 		
+	}
+	
+	/**
+	 * Load Textdomain
+	 *
+	 * @since 1.1.7
+	 *
+	 */
+	 
+	public function load_textdomain() {
+		load_plugin_textdomain( 'fusion-extension-image', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
