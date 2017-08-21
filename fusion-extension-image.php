@@ -7,7 +7,7 @@
  * Plugin Name: Fusion : Extension - Image
  * Plugin URI: http://www.agencydominion.com/fusion/
  * Description: Image Extension Package for Fusion.
- * Version: 1.1.6
+ * Version: 1.1.7
  * Author: Agency Dominion
  * Author URI: http://agencydominion.com
  * Text Domain: fusion-extension-image
