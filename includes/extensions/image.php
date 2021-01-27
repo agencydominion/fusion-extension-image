@@ -54,6 +54,13 @@ function fsn_init_image() {
 			),
 			array(
 				'type' => 'checkbox',
+				'param_name' => 'disable_lazy_load',
+				'label' => __('Disable Lazy Load', 'fusion-extension-image'),
+				'help' => __('Check to disable lazy load. Always disable lazy load if element may be above the fold.', 'fusion-extension-image'),
+				'section' => 'advanced'
+			),
+			array(
+				'type' => 'checkbox',
 				'param_name' => 'image_2x',
 				'label' => __('High Resolution Image', 'fusion-extension-image'),
 				'help' => __('Check to output image at 2x resolution. Use on logos and icons to make images high resolution display-ready. Dimensions will be half the size of the uploaded image.', 'fusion-extension-image'),
@@ -141,7 +148,7 @@ function fsn_image_shortcode( $atts, $content ) {
 			$image_classes = implode(' ', $image_classes_array);
 		}
 
-		$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') .' loading="lazy">';
+		$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') . (empty($disable_lazy_load) ? ' loading="lazy"' : '') .'>';
 		$image = apply_filters('fsn_image_img_output', $image, $atts, $attachment_attrs, $attachment_alt);
 
 		//build classes
