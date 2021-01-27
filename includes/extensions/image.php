@@ -116,6 +116,7 @@ function fsn_image_shortcode( $atts, $content ) {
 		'image_id' => '',
 		'image_size' => 'medium',
 		'enable_kenburns' => '',
+		'disable_lazy_load' => '',
 		'image_2x' => '',
 		'image_style' => 'img-default',
 		'image_align' => 'align-none',
