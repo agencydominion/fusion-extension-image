@@ -135,6 +135,9 @@ function fsn_image_shortcode( $atts, $content ) {
 	if (!empty($image_id)) {
 		//get image
 		$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
+		if (!is_array($attachment_attrs)) {
+			$attachment_attrs = array('', '', '', false); //attachment missing: same empty src/width/height as before, without the warnings
+		}
 		$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
 
 		//image classes
