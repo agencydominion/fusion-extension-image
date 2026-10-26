@@ -135,6 +135,9 @@ function fsn_image_shortcode( $atts, $content ) {
 	if (!empty($image_id)) {
 		//get image
 		$attachment_attrs = wp_get_attachment_image_src( $image_id, $image_size );
+		if (!is_array($attachment_attrs)) {
+			$attachment_attrs = array('', '', '', false); //attachment missing: same empty src/width/height as before, without the warnings
+		}
 		$attachment_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
 
 		//image classes
@@ -149,7 +152,13 @@ function fsn_image_shortcode( $atts, $content ) {
 			$image_classes = implode(' ', $image_classes_array);
 		}
 
-		$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') . (empty($disable_lazy_load) ? ' loading="lazy"' : '') .'>';
+		//fsn_perf_responsive_images (default off): wp_get_attachment_image() brings srcset, sizes and core's loading rules instead of a forced loading="lazy" (fsn_perf_attachment_image); a 2x image keeps its halved size and gets core's loading rules
+		$perf_images = apply_filters('fsn_perf_responsive_images', false) && function_exists('fsn_perf_attachment_image') && !empty($attachment_attrs[0]);
+		if ($perf_images && empty($image_2x)) {
+			$image = fsn_perf_attachment_image($image_id, $image_size, $attachment_alt, (!empty($image_classes) ? $image_classes : ''), !empty($disable_lazy_load));
+		} else {
+			$image = '<img src="'. esc_url($attachment_attrs[0]) .'" width="'. (!empty($image_2x) ? round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[1]) .'" height="'. (!empty($image_2x) ? round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN) : $attachment_attrs[2]) .'" alt="'. esc_attr($attachment_alt) .'"'. (!empty($image_classes) ? ' class="'. esc_attr($image_classes) .'"' : '') . (empty($disable_lazy_load) ? ($perf_images ? fsn_perf_loading_attributes(round(intval($attachment_attrs[1])/2, 0, PHP_ROUND_HALF_DOWN), round(intval($attachment_attrs[2])/2, 0, PHP_ROUND_HALF_DOWN)) : ' loading="lazy"') : '') .'>';
+		}
 		$image = apply_filters('fsn_image_img_output', $image, $atts, $attachment_attrs, $attachment_alt);
 
 		//build classes
